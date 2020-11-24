@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+      html,
+      body {
+      height: 100%;
+      
+           
+      }
+      
+      main {
+      margin-bottom: 90px;
+      
+      }
+      header {
+      width: 100%;
+      background: rgba(44, 62, 80, 0.9) !important;
+      height: 86px;
+      top: 0;
+      left: 0;
+      z-index: 80;
+      box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.095);
+      padding: 8px 16px;
+      overflow: hidden;
+      box-sizing: border-box;
+      }
+      .aside {
+      background-color: rgba(44, 62, 80, 0.9);
+      width: 250px;
+      position: fixed ;
+      top: 86px;
+      left: 0 ;
+      bottom: 0px;
+      z-index: 1  ;
+      display: flex ;
+      justify-content: center !important;
+      align-items: center !important;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) ;
+      }
+      
+      
+      .slide-transition {
+      transition: all .3s cubic-bezier(.65, .05, .36, 1);
+      }
+      .slide-enter,
+      .slide-leave {
+      left: -100%;
+      }
+    </style>
+    <link rel="stylesheet" href="styles/sierra.min.css">
+    <!-- для иконки в сайдбаре-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.14/vue.js"></script>
+  </head>
+  <body>
+    <!--
+    ДОБАВИТЬ АНИМАЦИОННЫЕ ПЕРЕХОДЫ!!
+    (добавить подсказки при наведении на ячейки имен )
+    -->
+    <div id="app">
+      <header>
+        <!-- Индикатор прогресса-->
+        <!-- margin-top: 70px;margin-left: 170px;-->
+        <div class="content-end">
+          <button class="button button-bg button-outlined" style="position: fixed;" @click="saidBar = !saidBar"><span>Menu</span></button>
+        </div>
+        <div style="border: 2px solid #1ABC9C; height: 65px; margin-bottom: 50px;margin-right: 130px;">
+          <div style=" border-radius: 5px; margin: 5px; border: 5px solid #1ABC9C; height: 50px;" v-bind:style="{width: width + '%'}">
+            <h3 class="text-primary text-center text-sm">Шаг {{ step }} из 4. </h3>
+          </div>
+        </div>
+        <header>
+          <aside class="aside" v-show="saidBar" transition="slide">
+            <ul class="text-gray">
+              <li><a class="text-sm" href="index.html">Главная</a></li>
+              <li><a class="text-sm" href="demo-version.html">Демо версия</a></li>
+              <li><a class="text-sm" href="full-version.html">Полная версия</a></li>
+              <li><a class="text-sm" href="">О проекте</a></li>
+              <li><a class="text-sm" href="">О авторе</a></li>
+              <!--
+              <li>
+              <a href="http://"></a>Главная</li>
+              <li>
+              <a href="http://"></a>Демо версия</li>
+              <li>
+              <a href="http://"></a>Полная версия</li>
+              <li>
+              <a href="http://"></a>О проекте</li>
+              <li>
+              <a href="http://"></a>О авторе</li>
+              -->
+              <!-- <li><a href="http://"></a></li>-->
+            </ul>
+          </aside>
+        </header>
+      </header>
+      <main>
+        <!-- step 2-->
+        <!--ТАБЛИЦА ДЛЯ ВВОДА ДАННЫХ ИМЕНОВАНИЙ ХИМИЧЕСКИХ ЭЛЕМЕНТОВ ДЛЯ БОЛЬШОЙ ТАБЛИЦЫ-->
+        <!--добавить реальные полные примеры как в каких ячейках должны выглядеть данные-->
+        <!-- Спозиционировать css-grid или flex-box-->
+        <section v-if="step == 2">
+          <div class="row">
+            <div class="container-md" style="margin-bottom: 70px;">
+              <h2 class="text-md text-primary">Инструкция ввода данных для второго шага. </h2>
+              <!-- h2  Введите пожалйста имена для элементов начиная с простых элементов! -->
+              <div class="container section border-right"><span>В первые две ячейки введите имена исходных веществ.</span><span class="text-primary">Например: CaO,SiO2,PbO,K2O,BeO,MgO и т.д.</span></div>
+              <div class="container section border-left"><span>В 3 и 4 ячейки, введите имена продуктов реакции.</span><span class="text-primary">Например: 2Al2O3,2PbO,Ba2O3 и т.д.</span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="container-md" style="margin-bottom: 70px;">
+              <table>
+                <tr>
+                  <!-- <td> <input type="" name="" v-model="elFour.dH"></td>-->
+                  <td>
+                    <div class="input full-width">
+                      <input type="" name="" v-model="nameElements.one" placeholder="пример: CaO">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input full-width">
+                      <input type="" name="" v-model="nameElements.two" placeholder="пример: SiO2">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input full-width">
+                      <input type="" name="" v-model="nameElements.three" placeholder="пример: 2PbO">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input full-width">
+                      <input type="" name="" v-model="nameElements.four" placeholder="пример: 2FeO">
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </section>
+        <!-- step 1
+        // ВЫВОДИМ ОБЩУЮ ИНФОРМАЦИЮ,ВСТУПЛЕНИЕ,ПРАВИЛА ИГРЫ И Т.Д.
+        
+        -->
+        <section v-if="step == 1">
+          <div class="container-md">
+            <h2 class="text-primary text-md">Перед началом выполнения расчетов,ознакомьтесь с инструкциями.</h2>
+            <p>Текст вступления</p>
+          </div>
+        </section>
+        <!-- step 3-->
+        <section v-if="step == 3">
+          <div class="row">
+            <div class="container-md" style="margin-bottom: 70px;">
+              <h2 class="text-md text-primary">Инструкция ввода данных для третьего шага. </h2>
+              <h3>Перед введением пожалуйста прочтите требования, дабы избежать ошибок при расчетах. </h3>
+              <p>
+                К формату данных применяются определенные требования.   
+                Не допускаеться ввод чисел которые:
+              </p>
+              <ul class="text-error">
+                <li> содержат буквенные символы</li>
+                <li> символы <span class="text-italic">@!#$%^&*()_=+~\|/</span></li>
+                <li>  содержат степени</li>
+                <ul class="text-info"></ul>
+                <li> Допускаеться запись чисел через знак запятой или точки ??</li>
+                <li> Соблюдайте пожалуйста енидиницы измерения(они указаны в шапке таблицы)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="container-md" style="margin-bottom: 70px;">
+              <h3 class="text-sm">В случае необходимости расчета степеней воспользуйтесь кальлкулятором ниже.</h3>
+              <!-- калькулятор степеней-->
+              <!-- 1 версия-->
+              <!-- 2 версия-->
+              <div class="container-sm">
+                <label class="label">число</label>
+                <div class="input full-width">
+                  <input type="" name="" v-model="number" placeholder="">
+                </div>
+                <label class="label">степень</label>
+                <div class="input full-width">
+                  <input type="" name="" v-model="pow" placeholder="">
+                </div>
+                <h4 class="text-gray text-sm">Результат  :  <span class="text-primary text-md">{{ powResult }}</span></h4>
+              </div>
+              <h3 class="text-sm">В случае необходимости умножения чисел воспользуйтесь кальлкулятором ниже.
+                <!-- калькулятор чисел-->
+              </h3>
+              <div class="container-sm">
+                <label class="label">число № 1</label>
+                <div class="input full-width">
+                  <input type="" name="" v-model="numberOne" placeholder="">
+                </div>
+                <label class="label">число № 2</label>
+                <div class="input full-width">
+                  <input type="" name="" v-model="numberTwo" placeholder="">
+                </div>
+                <h4 class="text-gray text-sm">Результат  :  <span class="text-primary text-md">{{ resultNumber }}</span></h4>
+              </div>
+            </div>
+          </div>
+          <!-- Пример таблицы с уже забитыми данными-->
+          <div class="row"></div>
+          <div class="container-md" style="margin-bottom: 70px;">
+            <h3 class="text-sm">Пример таблицы с данными для системы  CaO-SiO2</h3>
+            <table class="table">
+              <thead>
+                <tr></tr>
+                <td> 
+                  <h4>Название элемента</h4>
+                  <h4>(кДж/моль)</h4>
+                </td>
+                <td> 
+                  <h4 class="text-primary">&#916;H</h4>
+                  <h4>(Дж/моль &#215; K) </h4>
+                </td>
+                <td> 
+                  <h4 class="text-primary">S</h4>
+                  <h4>(Дж/моль &#215; K) </h4>
+                </td>
+                <td> 
+                  <h4 class="text-primary">a</h4>
+                  <h4>(Дж/моль &#215; K) </h4>
+                </td>
+                <td> 
+                  <h4 class="text-primary">b</h4>
+                  <h4>(Дж/моль &#215; K) </h4>
+                </td>
+                <td> 
+                  <h4 class="text-primary">c</h4>
+                  <h4>(Дж/моль &#215; K) </h4>
+                </td>
+              </thead>
+              <tr> 
+                <td data-th="Характеристики элемента № 1">Ca </td>
+                <td data-th="ентальпия"> </td><span>-635,85</span>
+                <td data-th="????"> </td><span>39,77</span>
+                <td data-th="справочная величина a"> </td><span> 48,85</span>
+                <td data-th="справочная величина b"> </td><span> 0,053</span>
+                <td data-th="справочная величина c"> </td><span> -653000</span>
+              </tr>
+              <tr> 
+                <td data-th="Характеристики элемента № 2">Si </td>
+                <td data-th="ентальпия"> </td><span>-911,58</span>
+                <td data-th="????"> </td><span>41,86</span>
+                <td data-th="справочная величина a"> </td><span> 46,96</span>
+                <td data-th="справочная величина b"> </td><span> 0.032</span>
+                <td data-th="справочная величина c"> </td><span> 300000</span>
+              </tr>
+              <tr> 
+                <td data-th="Характеристики элемента № 3">CaO * SiO2 </td>
+                <td data-th="ентальпия"></td><span>-2313,69</span>
+                <td data-th="????"> </td><span>120,56</span>
+                <td data-th="справочная величина a"> </td><span> 113,7</span>
+                <td data-th="справочная величина b"> </td><span> 0.082</span>
+                <td data-th="справочная величина c"> </td><span> 6</span>
+              </tr>
+              <tr> 
+                <td data-th="Характеристики элемента № 4">3CaO * SiO2 </td>
+                <td data-th="ентальпия"> </td><span>-2969,7</span>
+                <td data-th="????"> </td><span>168,6</span>
+                <td data-th="справочная величина a"> </td><span> 208,6</span>
+                <td data-th="справочная величина b"> </td><span> 0,036</span>
+                <td data-th="справочная величина c"> </td><span> -4250000</span>
+              </tr>
+            </table>
+          </div>
+          <!--    ТАБЛИЦА ДЛЯ ВВОДА ДАННЫХ КОТОРЫЕ ОТПРАВЯТЬСЯ НА СЕРВЕР ПО НАЖАТИЮ НА КНОПКУ-->
+          <!-- 1-ый вариант-->
+          <div class="row">
+            <div class="container-md" style="margin-bottom: 70px;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td> Название элемента</td>
+                    <td> <span class="text-primary text-md">&#916;H </span>
+                      <h4>(кДж/моль)</h4>
+                    </td>
+                    <td> <span class="text-primary text-md">S</span>
+                      <h4> (Дж/моль &#215; K) </h4>
+                    </td>
+                    <td> <span class="text-primary text-md">a </span>
+                      <h4>(Дж/моль &#215; K)  </h4>
+                    </td>
+                    <td> <span class="text-primary text-md">b </span>
+                      <h4>(Дж/моль &#215; K) </h4>
+                    </td>
+                    <td><span class="text-primary text-md">c </span>
+                      <h4>(Дж/моль &#215; K) </h4>
+                    </td>
+                  </tr>
+                </thead>
+                <!--one element
+                -->
+                <tbody>
+                  <tr>
+                    <td>{{nameElements.one }} </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elOne.dH">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width">
+                        <input type="" name="" v-model="elements.elOne.S">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elOne.a">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elOne.b">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elOne.c">
+                      </div>
+                    </td>
+                  </tr>
+                  <!--two element
+                  -->
+                  <tr>
+                    <td>{{nameElements.two}} </td>
+                    <td> 
+                      <div class="input full-width">
+                        <input type="" name="" v-model="elements.elTwo.dH">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width">
+                        <input type="" name="" v-model="elements.elTwo.S">
+                      </div>
+                    </td>
+                    <td> 
+                      <div class="input full-width">
+                        <input type="" name="" v-model="elements.elTwo.a">
+                      </div>
+                    </td>
+                    <td> 
+                      <div class="input full-width">
+                        <input type="" name="" v-model="elements.elTwo.b">
+                      </div>
+                    </td>
+                    <td> 
+                      <div class="input full-width">
+                        <input type="" name="" v-model="elements.elTwo.c">
+                      </div>
+                    </td>
+                  </tr>
+                  <!--Three element
+                  -->
+                  <tr>
+                    <td>{{nameElements.three }} </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elThree.dH">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width">
+                        <input type="" name="" v-model="elements.elThree.S">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elThree.a">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elThree.b">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elThree.c">
+                      </div>
+                    </td>
+                  </tr>
+                  <!--end element
+                  -->
+                  <tr>
+                    <td>{{nameElements.four }} </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elFour.dH">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width">
+                        <input type="" name="" v-model="elements.elFour.S">
+                      </div>
+                    </td>
+                    <td> 
+                      <div class="input full-width">
+                        <input type="" name="" v-model="elements.elFour.a">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elFour.b">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input full-width"> 
+                        <input type="" name="" v-model="elements.elFour.c">
+                        <!-- Спозиционировать по центру-->
+                        <h5 class="text-gray">*после отправки данных для расчета,пройдите к средующему шагу </h5>
+                        <button class="button button-primary button-xs background-success" v-on:click="sendData"> Расчет</button>
+                        <!-- <p>{{ elements.elOne.dH }} </p>-->
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <!-- step 4-->
+        <section v-if="step == 4">
+          <div class="container-sm">
+            <!-- Предлагаем какой формат файлов запросить у сервера,к этмоу моменту он уже должен был их оба посчитать-->
+            <h2 class="text-sm text-primary">Выберите формат в котором хотели бы увидеть результаты расчетов</h2>
+            <button class="button-primary button button-xs background-success" v-on:click="pdfFormat"> pdf </button>
+            <button class="button-primary button button-xs background-success" v-on:click="htmlFormat"> Html </button>
+          </div>
+        </section>
+        <!--        КНОПКИ ПЕРЕКЛЮЧЕНИЕ ШАГОВ-->
+        <div class="container-md">
+          <button class="button-outlined button button-sm background-success" v-on:click="nextStep" v-if="step !== 4"> Далее </button>
+          <button class="button-outlined button button-sm background-success" v-on:click="prevStep" v-if="step !== 1"> На шаг назад </button>
+        </div>
+      </main>
+    </div>
+  </body>
+  <script>
+    var app = new Vue({
+    el: '#app',
+    data: {
+                        // калькулятор чисел
+    numberOne: 0,       
+    numberTwo: 0,
+    saidBar: false,     // сайд-бар
+                        // калькулятор степеней
+    pow: 0,            // степень
+    number: 0,         // число
+    width: 25,          // длинна индикатора загрузки
+    step: 1,            // для шагов 1 - вступление. 2-таблица имен 3-большая таблица для отправки на сервер
+    nameElements : {one : '' , two : '' , three : '' , four         : ''},
+    elements : {
+    elOne : {
+    dH:"",
+    S:"",
+    a:"",
+    b:"",
+    c:""
+    },
+    elTwo : {
+    dH:"",
+    S:"",
+    a:"",
+    b:"",
+    c:""
+    },
+    elThree : {
+    dH:"",
+    S:"",
+    a:"",
+    b:"",
+    c:""
+    },
+    elFour : {
+    dH:"",
+    S:"",
+    a:"",
+    b:"",
+    c:""
+    }
+    }
+    },
+    computed:{
+    powResult: function () {
+     return Math.pow(this.number, this.pow);
+      },
+    resultNumber: function() {
+        return this.numberOne * this.numberTwo;
+    }
+    },
+    methods: {
+    
+    nextStep: function () {
+    this.step = this.step + 1;
+    this.width += 25 ;          //увеличивает индикатор шагов
+    },
+    prevStep: function () {
+    this.step = this.step - 1;
+    this.width -= 25 ;          // уменьшает индикатор шагов
+    },
+    /*
+    блок запросов на сервер
+    */
+    sendData: function () {             // данные для расчетов
+    /*
+    ДОБАВИТЬ ДЛЯ FULL И  DEMO - posr request
+    */
+    //- const str = JSON.stringify(this.elements);
+    // console.log(str )
+    axios.post('http://localhost:8081/demo/', this.elements)
+    .then((response) => {
+    console.log(response);
+    })
+    .catch((error) => {
+    console.log(error);
+    });
+    },
+    pdfFormat : function () {           // данные обратно в формате pdf
+    axios.get('/public/results/demo/pdf')
+    .then(function (response) {
+    console.log(response);
+    })
+    .catch(function (error) {
+    console.log(error);
+    });
+    },
+    htmlFormat : function () {          // данные обратно в формате html
+    axios.get('/public/results/demo/html')
+    .then(function (response) {
+    console.log(response);
+    })
+    .catch(function (error) {
+    console.log(error);
+    });
+    }
+    }
+    });
+  </script>
+</html>

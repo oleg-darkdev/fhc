@@ -1,0 +1,131 @@
+//-
+- var stepOneElOne = -766260  
+- var stepOneElTwo = -150570
+//-
+- var stepTwoElOne = 38.930000
+- var stepTwoElTwo = 7.4299999
+//-
+- var stepThreeElOne = [17.89 , 0.046150000000000004 ,1783006 ] 
+- var stepThreeElTwo = [15.089999999999975, -0.008810000000000005, -1161000]
+//-
+- var stepFourElOne = [-761814.2615,-753673.7565,-745045.5040,-735483.7525,-724839.9182]   
+- var stepFourElTwo = [-150233.3720,-148770.20540,-147058.22207,-145387.6720,-143855.3054]
+//-
+- var stepFiveElOne = [53.3707005,72.94996,88.4100,102.13353,114.89766]  
+- var stepFiveElTwo = [8.064696,10.405540,12.279193,13.557898,14.36975]
+//-
+- var stepSixElOne = [-783162.5417,-153459.25071,-797443.7372,-155013.52945,-815773.523]  
+- var stepSixElTwo = [-156881.5771,-837617.285,-158945.5708,-862717.120,-161099.0126]
+//-
+
+
+//- //- //- for 4-6 step
+
+mixin tabl (texth2, textP,elOne, elTwo)
+	.container.results
+		.row
+			h2.text-medium.text-center #{texth2}
+			p.text-small.text-gray.text-center #{textP}
+		.col-xs-12.col-md-10.col-sm-10.col-lg-8.container-small
+				table.table.table-responsive.table-break-medium
+					tr
+						td
+						- for(x=400 ; x <= 1200;x+=200)
+							td t = #{x}
+					tr
+						td CaSiO3
+						each item in elOne
+							td= item    
+					tr
+						td 3CaSiO3
+						each item in elTwo
+							td= item
+					h3.text-small.text-center Таблица результатов полученных из расчетов.
+
+//- for 3 step'
+
+mixin tablMedium (texth2, textP,elOne, elTwo)
+	.container.results
+		.row
+			h2.text-medium.text-center #{texth2}
+			p.text-small.text-gray #{textP}
+		.col-xs-12.col-md-10.col-sm-10.col-lg-8.container-small
+				table.table.table-responsive.table-break-medium
+					tr
+						td
+						td dA
+						td dB
+						td dC
+					tr
+						td CaSiO3
+						each item in elOne
+							td= item    
+					tr
+						td 3CaSiO3
+						each item in elTwo
+							td= item
+					h3.text-small.text-center Таблица результатов полученных из расчетов.
+
+
+
+mixin sm (dh , texth2, textP,elOne, elTwo)
+	.container.results
+		.row
+			p.text-small.text-gray #{textP}
+			h2.text-medium.text-center #{texth2}
+		.col-xs-12.col-md-6.col-sm-6.col-lg-8.container-small
+				table.table.table-responsive.table-break-medium
+					tr
+						td
+						td #{dh}
+					tr
+						td CaSiO3
+						td #{elOne}    
+					tr
+						td 3CaSiO3
+						td #{elTwo}    
+					h3.text-small.text-center Таблица результатов полученных из расчетов.
+
+
+
+
+doctype html
+html
+	head
+		meta(charset = 'utf-8')
+		meta(name='viewport', content="initial-scale=1.0, width=device-width")
+		title hello
+			link(href='./css/index.css', rel='stylesheet')
+			script(type='text/javascript', src='js/index.js')
+			script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js')
+
+	body
+		//- for 1 step 
+		+sm('dH' , 'Определяем изменение энтальпии реакции при темпаературе 298К c учетом стехиометрических коэфициентов в уравнении химической реакции' ,' ', stepOneElOne ,stepOneElTwo )
+		//- for 2 step 
+		+sm('dS' , 'Определяем изменение энтропии при темпаературе 298К c учетом стехиометрических коэфициентов в уравнении химической реакции', ' ', stepTwoElOne ,stepTwoElTwo )
+		//- for 3 step 
+		+tablMedium('Измение коэфициентов при протекании реакции','',stepThreeElOne , stepThreeElTwo)
+		//- for 4 step
+		+tabl('Определяем тепловой эффект при искомой температуре Т ' , 'по  формуле', stepFourElOne, stepFourElTwo)
+		//- for 5 step
+		+tabl('Определяем энтропию при искомой температуре Т' , 'по  формуле',stepFiveElOne, stepFiveElTwo)
+		//- for 6 step
+		+tabl('Определяем для заданных температур' , '', stepSixElOne, stepSixElTwo)
+
+
+
+//- .container-medium.align-center
+//- 	canvas#himChart(width='1000',height='500')	
+		
+//- script(src='js/java_script.js')
+
+
+include /pug/dSt.pug
+//- include /pug/dS.pug
+//- include /pug/dHt.pug
+//- include /pug/dH.pug
+//- include /pug/dGt.pug
+//- include /pug/dcP.pug
+//- include /pug/ABC.pug
+//- include /pug/cP.pug

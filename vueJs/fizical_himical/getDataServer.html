@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    
+    <!-- <link rel="stylesheet" href="./public/dist/sierra.min.css"> -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.14/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+</head>
+<body>
+
+<div id="app">
+
+
+<!--                    step 3    -->
+<section >
+
+    <div class="container-md">
+        <!--
+					ТАБЛИЦА ДЛЯ ВВОДА ДАННЫХ КОТОРЫЕ ОТПРАВЯТЬСЯ НА СЕРВЕР ПО НАЖАТИЮ НА КНОПКУ
+                -->
+    <!-- <form method="post" action="http://localhost:8081/demo"> -->
+        <table>
+            <!--
+						one element -->
+<!-- <input type="text" name="user[name]">
+<input type="text" name="user[email]">
+<input type="submit" value="Submit"> -->
+            <tr>
+
+                <td>
+                    <input type="text" name="elOne.dH" v-model="elements.elOne.dH">
+                </td>
+                <td>
+                    <input type="text" name="elOne.S" v-model="elements.elOne.S">
+                </td>
+                <td>
+                    <input type="text" name="elOne.a" v-model="elements.elOne.a">
+                </td>
+                <td>
+                    <input type="text" name="elOne.b" v-model="elements.elOne.b">
+                </td>
+                <td>
+                    <input type="" name="elOne.c" v-model="elements.elOne.c">
+                </td>
+            </tr>
+        <!-- <input type="submit" value="Submit"> -->
+    <!-- </form> -->
+        <button v-on:click="sendData" class="button button-primary button-xs background-success"> Go!!</button>
+        <!-- <p>{{ elements.elOne.dH }} </p> -->
+    </div>
+
+</section>
+</div>
+
+   
+
+
+</body>
+<script>
+ 
+    function getUserAccount() {
+        return axios.get('http://localhost:8081/');
+    };
+
+    var app = new Vue({
+            el: '#app',
+            data: {
+                elements: {
+                    elOne: {
+                        dH: "",
+                        S: "",
+                        a: "",
+                        b: "",
+                        c: ""
+                    },
+                    elTwo: {
+                        dH: "",
+                        S: "",
+                        a: "",
+                        b: "",
+                        c: ""
+                    },
+                    elThree: {
+                        dH: "",
+                        S: "",
+                        a: "",
+                        b: "",
+                        c: ""
+                    },
+                    elFour: {
+                        dH: "",
+                        S: "",
+                        a: "",
+                        b: "",
+                        c: ""
+                    }
+                }
+            },
+            methods: {
+                sendData: function () {             // данные для расчетов
+                    // alert(' клик!))');
+
+                    axios.post('http://localhost:8081/demo', this.elements)
+                        .then((response) => {
+                            console.log(response);
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+
+                    // /* 
+                               
+                    //            ДОБАВИТЬ ДЛЯ FULL И  DEMO - posr request
+                    //            */
+                    // const str = JSON.stringify(this.elements);
+                    // // console.log(str )
+                    // axios.post('http://localhost:8081/demo/', str)
+                    //     .then((response) => {
+                    //         console.log(response);
+                    //     })
+                    //     .catch((error) => {
+                    //         console.log(error);
+                    //     });
+                }
+                
+            }
+        });
+
+            // var data = document.forms["forma"].elements["name"].value;
+
+            // axios.post('http://localhost:8081/', data)
+            //     .then(function (response) {
+            //         console.log(response);
+            //     })
+            //     .catch(function (error) {
+            //         console.log(error);
+            //     });
+
+            // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+
+        // };
+
+
+
+</script>
+</html>
