@@ -18,7 +18,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
-    "node-notifier": "^5.1.2",
+    "node-notifier": "^8.0.1",
     "nodemon": "^1.14.6",
     "pug": "2.0.0-beta11",
     "serve-favicon": "~2.4.5",
