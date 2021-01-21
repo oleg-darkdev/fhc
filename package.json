@@ -22,7 +22,7 @@
     "nodemon": "^1.14.6",
     "pug": "2.0.0-beta11",
     "serve-favicon": "~2.4.5",
-    "socket.io": "^2.0.4",
+    "socket.io": "^2.4.0",
     "vue": "^2.5.11"
   },
   "browserslist": [
